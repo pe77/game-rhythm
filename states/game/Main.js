@@ -74,21 +74,12 @@ Main.prototype.onEndTransition = function(e)
       this.makeHit(Phaser.Timer.SECOND * i)
     };
 
-    // hit simples
-    this.makeHit(16240)
-    this.makeHit(18208);
-    this.makeHit(20205);
-    this.makeHit(22236);
-    this.makeHit(23218);
-    this.makeHit(23709);
+    this.makeHit(23800)
 
-    this.makeHit(28196);
-    this.makeHit(30455);
-    /*
+    // hit simples
     for (var i = 16; i < 32; i++) {
       this.makeHit(Phaser.Timer.SECOND * i)
     };
-    */
 
     // hit dobrado
     for (var i = 32; i < 40; i++) {
