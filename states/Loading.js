@@ -23,6 +23,7 @@ Loading.prototype = {
 
     // states
     game.load.script('main', 'states/game/Main.js');
+    /*
     game.load.script('gamemenu','states/GameMenu.js');
     game.load.script('gameover','states/GameOver.js');
     game.load.script('credits', 'states/Credits.js');
