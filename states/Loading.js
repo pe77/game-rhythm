@@ -102,10 +102,12 @@ Loading.prototype = {
 
   addGameStates: function () {
 
+    /*
     game.state.add("GameMenu",GameMenu);
     game.state.add("GameOver",GameOver);
     game.state.add("Credits",Credits);
     game.state.add("Options",Options);
+    */
     
     game.state.add("Main", Main);
   },
