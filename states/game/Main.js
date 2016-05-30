@@ -12,9 +12,9 @@ Main.prototype.init = function(){
   this._stage1Sound = game.add.audio('stage1-music');
   this._hitFx       = game.add.audio('hit-fx');
 
-  this._proximityDelay = 700; // ms
+  this._proximityDelay = 600; // ms
   this._enemySpeed     = 3000; // ms
-  this._musicBPM       = 120; // ms
+  this._musicBPM       = 60; // ms
 
 
 }
@@ -79,7 +79,7 @@ Main.prototype.onEndTransition = function(e)
       this.makeHit(Phaser.Timer.SECOND * i)
     };
 
-    this.makeHit(23800)
+    this.makeHit(23500)
 
     // hit simples
     for (var i = 16; i < 32; i++) {

@@ -22,6 +22,8 @@ Enemy.prototype.create = function(sprite)
   this._element.events.onInputUp.add(function(){
     this._event.dispatch('onEnemyClick', {enemy:this});
   }, this);
+
+  this._game.world.sendToBack(this._element);
 }
 
 Enemy.prototype.setPosition = function(position, angle)
