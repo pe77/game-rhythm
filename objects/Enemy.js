@@ -24,8 +24,11 @@ Enemy.prototype.create = function(sprite)
   }, this);
 }
 
-Enemy.prototype.setPosition = function(position)
+Enemy.prototype.setPosition = function(position, angle)
 {
+  // angulo de onde virá (-1 = random)
+  angle = angle || -1;
+
   // se houver posição, coloca
   if(position != undefined) // new PIXI.Point(0, 0);
   {
@@ -37,6 +40,11 @@ Enemy.prototype.setPosition = function(position)
   circle = new Phaser.Circle(this._game.world.centerX, this._game.world.centerY, 500);
   var rand  = game.rnd.integerInRange(0, 360);
   var pos   = circle.circumferencePoint(rand, true);
+
+  // se houver angulo predefinido, usa
+  if(angle > -1)
+    pos = circle.circumferencePoint(angle, true);
+  //
 
   this._element.position = pos;
   this._element.anchor.set(0.5);
@@ -59,6 +67,8 @@ Enemy.prototype.runTo = function(position, time, markTime)
   this._timeHitMark = this._game.add.graphics(this._game.world.centerX, this._game.world.centerY);
   this._timeHitMark.lineStyle(2, 0x00ffdd, 1);
   this._timeHitMark.drawCircle(0, 0, circle.diameter);
+
+  this._timeHitMark.position = this._element.position;
   
   var markClose      = game.add.tween(this._timeHitMark);
   markClose.to({
