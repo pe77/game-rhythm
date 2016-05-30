@@ -44,7 +44,7 @@ Main.prototype.createEnemy = function(runTime)
   }, {}, this);
 
   // faz o inimigo correr até o jogador
-  enemy.runTo(this._player._element.position, runTime + this._proximityDelay);
+  enemy.runTo(this._player._element.position, runTime + this._proximityDelay, runTime);
 
   return enemy;
   
@@ -59,7 +59,6 @@ Main.prototype.onEndTransition = function(e)
   this._player._element.x = game.world.centerX;
   this._player._element.y = game.world.centerY;
   this._player._element.anchor.set(0.5);
-
 
   // carrega e espera o som terminar o decode
   game.sound.setDecodedCallback([ this._stage1Sound, this._hitFx ], function(){

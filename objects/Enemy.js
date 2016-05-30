@@ -46,12 +46,27 @@ Enemy.prototype.setPosition = function(position)
 }
 
 // faz o inimigo correr até determinado ponto e um tempo X
-Enemy.prototype.runTo = function(position, time)
+Enemy.prototype.runTo = function(position, time, markTime)
 {
   this.enemyRunTween  = game.add.tween(this._element);
   time = time || game.rnd.integerInRange(500, 1500);
 
+  markTime = markTime || time;
+
+
+  // desenha a marcação do hit
+  circle = new Phaser.Circle(this._game.world.centerX, this._game.world.centerY, 140);
+  this._timeHitMark = this._game.add.graphics(this._game.world.centerX, this._game.world.centerY);
+  this._timeHitMark.lineStyle(2, 0x00ffdd, 1);
+  this._timeHitMark.drawCircle(0, 0, circle.diameter);
   
+  var markClose      = game.add.tween(this._timeHitMark);
+  markClose.to({
+    width:this._element.width -5,
+    height:this._element.height -5
+  }, markTime, null, true);
+
+  // alpha de entrada
   var enemyAlpha      = game.add.tween(this._element);
   this._element.alpha = 0;
   enemyAlpha.to({
@@ -63,7 +78,14 @@ Enemy.prototype.runTo = function(position, time)
     y:position.y
   }, time, null, true);
 
+  // mantem a posição da marcação
+  this.enemyRunTween.onUpdateCallback(function(){
+    this._timeHitMark.position = this._element.position;
+  }, this);
+
   this.enemyRunTween.onComplete.add(function(enemy){
+    // remove o hit 
+    this._timeHitMark.kill();
     this._event.dispatch('onEndRun', {enemy:enemy});
   }, this);
 }
@@ -102,6 +124,9 @@ Enemy.prototype.hit = function(perfectHit)
 // remove inimigo
 Enemy.prototype.kill = function()
 {
-  // remove sprite
+  // remove sprite do inimigo
   this._element.kill();
+
+  // remove marção de hit
+  this._timeHitMark.alpha = 0;
 }
