@@ -1,5 +1,7 @@
 var GameElement = function(){};
 
+
+GameElement.id = 0;
 GameElement.prototype = {
 
   // atributos
@@ -9,6 +11,7 @@ GameElement.prototype = {
 
   init: function (game, attrs) {
     this._game = game;
+    this._id = ++GameElement.id;
 
     if(attrs !== undefined)
     {

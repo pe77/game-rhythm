@@ -8,7 +8,6 @@ var Enemy = function(game, attrs)
 }
 
 Enemy.prototype = Object.create(GameElement.prototype);
-
 // sobrescreve o metodo que cria o elemento
 Enemy.prototype.create = function(sprite)
 {
@@ -96,9 +95,15 @@ Enemy.prototype.runTo = function(position, time, markTime)
   }, this);
 
   this.enemyRunTween.onComplete.add(function(enemy){
-    // remove o hit 
-    this._timeHitMark.kill();
-    this._event.dispatch('onEndRun', {enemy:enemy});
+
+    // se ainda estiver vivo
+    if(enemy.alive)
+    {
+      // remove o hit e inimigo
+      this.kill();
+      this._event.dispatch('onEndRun', {enemy:enemy});
+    }
+    
   }, this);
 }
 
@@ -140,5 +145,23 @@ Enemy.prototype.kill = function()
   this._element.kill();
 
   // remove marção de hit
-  this._timeHitMark.alpha = 0;
+  // this._timeHitMark.alpha = 0;
+  this._timeHitMark.kill();
+
+  this._event.dispatch('onEnemyKill', {enemy:this});
+}
+
+
+Enemy.prototype.pulse = function(even, time)
+{
+  if(even)
+  {
+    this._element.scale.x = 0.8;
+    this._element.scale.y = 1.1;
+  }
+  else
+  {
+    this._element.scale.x = 1.1;
+    this._element.scale.y = 0.8;
+  }
 }

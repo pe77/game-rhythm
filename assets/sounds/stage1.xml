@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+
+<music name="Nome da musica" author="Henrique" bpm="60" speed="1800" proximityDelay="350">
+    
+    <!-- custom notes -->
+    <notes> 
+        <enemy type="1" time="23500" angle="-1"/>
+
+        <enemy type="1" time="56600" angle="90"/>
+        <enemy type="1" time="56800" angle="90"/>
+        <enemy type="1" time="57000" angle="90"/>
+        <enemy type="1" time="57200" angle="90"/>
+        <enemy type="1" time="57400" angle="90"/>
+
+        <enemy type="1" time="58600" angle="90"/>
+        <enemy type="1" time="58800" angle="90"/>
+        <enemy type="1" time="59000" angle="90"/>
+        <enemy type="1" time="59200" angle="90"/>
+        <enemy type="1" time="59400" angle="90"/>
+
+        <enemy type="1" time="62600" angle="90"/>
+        <enemy type="1" time="62800" angle="90"/>
+        <enemy type="1" time="63000" angle="90"/>
+        <enemy type="1" time="63200" angle="90"/>
+        <enemy type="1" time="63400" angle="90"/>
+        <enemy type="1" time="63600" angle="90"/>
+        
+        <enemy type="1" time="64700" angle="90"/>
+        <enemy type="1" time="64900" angle="90"/>
+        <enemy type="1" time="65100" angle="90"/>
+        <enemy type="1" time="65300" angle="90"/>
+        <enemy type="1" time="65500" angle="90"/>
+        <enemy type="1" time="65700" angle="90"/>
+
+        <enemy type="1" time="66700" angle="90"/>
+        <enemy type="1" time="66900" angle="90"/>
+        <enemy type="1" time="67100" angle="90"/>
+        <enemy type="1" time="67300" angle="90"/>
+        <enemy type="1" time="67500" angle="90"/>
+        
+        <enemy type="1" time="68700" angle="90"/>
+        <enemy type="1" time="68900" angle="90"/>
+        <enemy type="1" time="69100" angle="90"/>
+        <enemy type="1" time="69300" angle="90"/>
+        <enemy type="1" time="69500" angle="90"/>
+        <enemy type="1" time="69700" angle="90"/>
+
+        <enemy type="1" time="70700" angle="90"/>
+        <enemy type="1" time="70900" angle="90"/>
+        <enemy type="1" time="71100" angle="90"/>
+        <enemy type="1" time="71300" angle="90"/>
+        <enemy type="1" time="71500" angle="90"/>
+        <enemy type="1" time="71700" angle="90"/>
+
+    </notes>
+
+    <!-- loops -->
+    <loops>
+        <loop from="8" to="14" times="1" angle="-1"/>
+        <loop from="16" to="32" times="1" angle="-1"/>
+        <loop from="33" to="40" times="2" angle="-1"/>
+        <loop from="41" to="54" times="1" angle="-1"/>
+        <loop from="72" to="78" times="1" angle="-1"/>
+        <loop from="80" to="88" times="2" angle="-1"/>
+    </loops>
+</music>

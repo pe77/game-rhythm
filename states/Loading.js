@@ -49,6 +49,11 @@ Loading.prototype = {
     */
   },
 
+  loadMusics: function() {
+
+    game.load.xml('stage1-xml', 'assets/sounds/stage1.xml');
+  },
+
   loadBgm: function () {
 
     game.load.audio('stage1-music', 'assets/sounds/stage1.mp3');
@@ -97,6 +102,7 @@ Loading.prototype = {
     this.loadScripts();
     this.loadImages();
     this.loadFonts();
+    this.loadMusics();
     this.loadBgm();
   },
 
