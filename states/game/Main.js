@@ -72,9 +72,7 @@ Main.prototype.onEndTransition = function(e)
     // inicia a musica
     this._stage1Sound.play();
 
-    game.time.events.add(10, function(){
-      this.pulseLoop()
-    }, this);
+    this.pulseLoop()
 
     // hit simples
     for (var i = 8; i < 14; i++) {
