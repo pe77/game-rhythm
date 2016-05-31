@@ -1,4 +1,15 @@
-var Player = function(game, attrs){this.init(game, attrs)}
+var Player = function(game, attrs){
+
+	attrs['_health'] = 5; // vidas inicial
+
+	// inicia gerenciador de eventos
+  	this._event = new Event('player-event', this);
+
+  	// barrinha de vida
+  	this._heathBarGroup = this._game.add.group();
+
+	this.init(game, attrs)
+}
 
 Player.prototype = Object.create(GameElement.prototype);
 
