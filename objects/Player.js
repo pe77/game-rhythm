@@ -1,12 +1,12 @@
 var Player = function(game, attrs){
 
-	attrs['_health'] = 5; // vidas inicial
+	this._health = 5; // vidas inicial
 
 	// inicia gerenciador de eventos
   	this._event = new Event('player-event', this);
 
   	// barrinha de vida
-  	this._heathBarGroup = this._game.add.group();
+  	this._heathBarGroup = game.add.group();
 
 	this.init(game, attrs)
 }

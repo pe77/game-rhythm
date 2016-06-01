@@ -81,6 +81,12 @@ Main.prototype.onEndTransition = function(e)
   // carrega configuração da musica
   var xml = game.cache.getXML('stage1-xml');
 
+  this._music = new Music(game);
+  this._music.loadXmlData(xml);
+  this._music.loadSong('stage1-music');
+  return;
+
+
   this._enemySpeed      = parseInt(xml.getElementsByTagName("music")[0].attributes.speed.value);
   this._musicBPM        = parseInt(xml.getElementsByTagName("music")[0].attributes.bpm.value);
   this._proximityDelay  = parseInt(xml.getElementsByTagName("music")[0].attributes.proximityDelay.value);

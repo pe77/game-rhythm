@@ -19,6 +19,7 @@ Loading.prototype = {
 
     game.load.script('player', 'objects/Player.js');
     game.load.script('Enemy', 'objects/Enemy.js');
+    game.load.script('Music', 'objects/Music.js');
 
 
     // states
@@ -71,6 +72,9 @@ Loading.prototype = {
 
     game.load.image('player-test', 'assets/images/states/test/player.png');
     game.load.image('enemy-test', 'assets/images/states/test/enemy.png');
+    
+    // ui
+    game.load.image('player-ui-hearth', 'assets/images/states/test/enemy.png');
     
   },
 
