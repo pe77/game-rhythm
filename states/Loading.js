@@ -24,6 +24,7 @@ Loading.prototype = {
 
     // states
     game.load.script('main', 'states/game/Main.js');
+    game.load.script('gamemenu','states/GameMenu.js');
     /*
     game.load.script('gamemenu','states/GameMenu.js');
     game.load.script('gameover','states/GameOver.js');
@@ -53,11 +54,15 @@ Loading.prototype = {
   loadMusics: function() {
 
     game.load.xml('stage1-xml', 'assets/sounds/stage1.xml');
+    game.load.xml('stage2-xml', 'assets/sounds/stage2.xml');
+    game.load.xml('stage3-xml', 'assets/sounds/stage3.xml');
   },
 
   loadBgm: function () {
 
     game.load.audio('stage1-music', 'assets/sounds/stage1.mp3');
+    game.load.audio('stage2-music', 'assets/sounds/stage2.mp3');
+    game.load.audio('stage3-music', 'assets/sounds/stage3.mp3');
     game.load.audio('hit-fx', 'assets/sounds/hit.mp3');
     // thanks Kevin Macleod at http://incompetech.com/
     // game.load.audio('dangerous', 'assets/bgm/Dangerous.mp3');
@@ -118,6 +123,8 @@ Loading.prototype = {
     game.state.add("Credits",Credits);
     game.state.add("Options",Options);
     */
+
+    game.state.add("GameMenu",GameMenu);
     
     game.state.add("Main", Main);
   },
@@ -142,7 +149,7 @@ Loading.prototype = {
     transition.init(game);
 
     setTimeout(function () {
-      game.state.start("Main");
+      game.state.start("GameMenu");
     }, 1000);
   }
 };

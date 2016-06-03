@@ -9,8 +9,8 @@ Main.prototype.name = "Test Screen";
 Main.prototype.init = function(){
   this._player = new Player(game);
 
-  this._stage1Sound = game.add.audio('stage1-music');
   this._hitFx       = game.add.audio('hit-fx');
+
 
   // valores padrão
   this._proximityDelay = 600; // ms
@@ -79,17 +79,67 @@ Main.prototype.onEndTransition = function(e)
   console.log('Entrou no:', this.name);
 
   // carrega configuração da musica
-  var xml = game.cache.getXML('stage1-xml');
+  var xml = game.cache.getXML('stage'+gameController.selectedMusic+'-xml');
 
   this._music = new Music(game);
   this._music.loadXmlData(xml);
-  this._music.loadSong('stage1-music');
-  return;
+  
+  this._music._event.add('onPulse', function(e){
+    this.pulseMark(e.even, e.pulseTime); // pulso inicial
+  }, {}, this);
 
 
-  this._enemySpeed      = parseInt(xml.getElementsByTagName("music")[0].attributes.speed.value);
-  this._musicBPM        = parseInt(xml.getElementsByTagName("music")[0].attributes.bpm.value);
-  this._proximityDelay  = parseInt(xml.getElementsByTagName("music")[0].attributes.proximityDelay.value);
+  game.debug.text('carregando musica... ',50,200);
+
+  // evento de decode da musica
+  this._music._event.add('onDecodeComplete', function(e){
+    // console.log('finish decode', this._music.getPulsesBetween(8, 14, 1));
+
+    // carrega e espera o efeito de batida
+    game.sound.setDecodedCallback([ this._hitFx ], function(){
+      
+      game.debug.text('GO',50,200);
+      // inicia a musica
+      this._music.play();
+
+      // carrega hits do xml da musica
+
+      // custom notes
+      var enemiesHit = xml.getElementsByTagName("enemy")
+      for (var i = 0; i < enemiesHit.length; i++)
+      {
+        var type = parseInt(enemiesHit[i].attributes.type.value);
+        var time = parseInt(enemiesHit[i].attributes.time.value);
+        var angle = parseInt(enemiesHit[i].attributes.angle.value);
+
+        this.makeHit(time, angle);
+      };
+
+      // loops
+      var enemiesHitLoop = xml.getElementsByTagName("loop");
+      
+      for (var k = 0; k < enemiesHitLoop.length; k++)
+      {
+        var from = parseInt(enemiesHitLoop[k].attributes.from.value);
+        var to = parseInt(enemiesHitLoop[k].attributes.to.value);
+        var times = parseInt(enemiesHitLoop[k].attributes.times.value);
+        var angle = parseInt(enemiesHitLoop[k].attributes.angle.value);
+        var pulses = this._music.getPulsesBetween(from, to, times);
+
+        for (var i = 0; i < pulses.length; i++)
+          this.makeHit(pulses[i], angle)
+        //
+        //
+
+      };
+      
+      
+    }, this); 
+
+  }, {}, this);
+
+
+  this._music.loadSong('stage'+gameController.selectedMusic+'-music');
 
   // cria(sprite) jogador coloca o jogador no centro
   this._player.create('player-test');
@@ -97,54 +147,7 @@ Main.prototype.onEndTransition = function(e)
   this._player._element.y = game.world.centerY;
   this._player._element.anchor.set(0.5);
 
-  // carrega e espera o som terminar o decode
-  game.sound.setDecodedCallback([ this._stage1Sound, this._hitFx ], function(){
-    
-    // inicia a musica
-    this._stage1Sound.play();
-
-    this.pulseLoop();
-
-    // carrega hits do xml da musica
-
-    // custom notes
-    var enemiesHit = xml.getElementsByTagName("enemy")
-    for (var i = 0; i < enemiesHit.length; i++) {
-      var type = parseInt(enemiesHit[i].attributes.type.value);
-      var time = parseInt(enemiesHit[i].attributes.time.value);
-      var angle = parseInt(enemiesHit[i].attributes.angle.value);
-
-      this.makeHit(time, angle);
-    };
-
-    // loops
-    var enemiesHitLoop = xml.getElementsByTagName("loop");
-    
-    for (var k = 0; k < enemiesHitLoop.length; k++) {
-      var from = parseInt(enemiesHitLoop[k].attributes.from.value);
-      var to = parseInt(enemiesHitLoop[k].attributes.to.value);
-      var times = parseInt(enemiesHitLoop[k].attributes.times.value);
-      var angle = parseInt(enemiesHitLoop[k].attributes.angle.value);
-
-      console.log(to, from)
-
-      for (var i = from; i <= to; i++)
-      {
-        var bpmTime = ((this._musicBPM * 1000) / 60) * i;
-
-        for (var j = 1; j < times; j++)
-        {
-          this.makeHit(bpmTime + ((((this._musicBPM * 1000) / 60)) / 2), angle)
-        };
-
-        this.makeHit(bpmTime, angle)
-        
-      };
-
-    };
-    
-    
-  }, this); 
+  
 }
 
 
@@ -159,26 +162,8 @@ Main.prototype.pulseMark = function(even, pulseTime)
 
 }
 
-// pulsa de acordo com o bpm
-Main.prototype.pulseLoop = function()
-{
-  // calcula tempo do pulso
-  var pulseTime = (Phaser.Timer.SECOND * 60) / this._musicBPM;
-
-
-  var even = true;
-
-  this.pulseMark(even, pulseTime); // pulso inicial
-
-  // loop
-  game.time.events.loop(pulseTime, function(){
-    this.pulseMark(even = !even, pulseTime);
-  }, this)
-}
-
 Main.prototype.makeHit = function(time, angle)
 {
-
   // angulo de onde virá (-1 = random)
   angle = angle || -1;
 

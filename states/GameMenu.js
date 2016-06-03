@@ -1,15 +1,14 @@
 var GameMenu = function() {};
 
-
 GameMenu.prototype = {
 
   menuConfig: {
-    startY: 260,
+    startY: 180,
     startX: 30
   },
 
   init: function () {
-    this.titleText = game.make.text(game.world.centerX, 100, "Backgroud\nJAVA", {
+    this.titleText = game.make.text(game.world.centerX, 100, "Jogo de musica\n(sem nome)", {
       font: 'bold 60pt Arial',
       fill: '#FDFFB5',
       align: 'center'
@@ -34,15 +33,21 @@ GameMenu.prototype = {
     game.add.sprite(0, 0, 'menu-bg');
     game.add.existing(this.titleText);
 
-    this.addMenuOption('Novo jogo', function () {
+    this.addMenuOption('Musica 1', function () {
+      gameController.selectedMusic = 1;
       game.state.start("Main");
     });
-    this.addMenuOption('Opcoes', function () {
-      game.state.start("Options");
+
+    this.addMenuOption('Musica 2', function () {
+      gameController.selectedMusic = 2;
+      game.state.start("Main");
     });
-    this.addMenuOption('Credits', function () {
-      game.state.start("Credits");
+
+    this.addMenuOption('Musica 3', function () {
+      gameController.selectedMusic = 3;
+      game.state.start("Main");
     });
+
 
     
   }
