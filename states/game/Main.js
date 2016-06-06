@@ -9,6 +9,9 @@ Main.prototype.name = "Test Screen";
 Main.prototype.init = function(){
   this._player = new Player(game);
 
+  // game.time.desiredFps = 30
+  // game.forceSingleUpdate = true
+
   this._hitFx       = game.add.audio('hit-fx');
 
 

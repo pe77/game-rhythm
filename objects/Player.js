@@ -1,12 +1,15 @@
 var Player = function(game, attrs){
 
-	this._health = 5; // vidas inicial
-
 	// inicia gerenciador de eventos
-  	this._event = new Event('player-event', this);
+	this._event = new Event('player-event', this);
 
-  	// barrinha de vida
-  	this._heathBarGroup = game.add.group();
+	// barrinha de vida
+	this._heathBar = new HealthBar(game, {_health:5});
+
+  // vidas inicial
+  this._health = this._heathBar._health;// vidas inicial
+
+
 
 	this.init(game, attrs)
 }
@@ -30,6 +33,9 @@ Player.prototype.create = function(sprite)
   // chama a super classe e desenha o boneco
   GameElement.prototype.create.call(this, sprite);
 
+  // cria a barra de vida
+  this._heathBar.create();
+
   this._element.anchor.set(0.5);
 }
 
@@ -46,6 +52,8 @@ Player.prototype.pulse = function(even, time)
     this._element.scale.x = 1.1;
     this._element.scale.y = 0.9;
   }
+
+  this._heathBar.pulse(even, time);
 
   // desenha outro circulo a area de ação
   circle = new Phaser.Circle(0, 0, 140);

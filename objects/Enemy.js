@@ -90,9 +90,11 @@ Enemy.prototype.runTo = function(position, time, markTime)
   }, time, null, true);
 
   // mantem a posição da marcação
+  /*
   this.enemyRunTween.onUpdateCallback(function(){
     this._timeHitMark.position = this._element.position;
   }, this);
+  */
 
   this.enemyRunTween.onComplete.add(function(enemy){
 
