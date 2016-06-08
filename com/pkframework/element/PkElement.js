@@ -24,7 +24,13 @@ PkElement.prototype = {
 
   create: function (sprite)
   {
-    return this._element = this._game.add.sprite(0, 0, sprite);
+    this._element = this._game.add.group();
+
+    if(sprite)
+      this._element.add(this._game.add.sprite(0, 0, sprite));
+    //
+
+    return this._element;
   },
 
   // pega um atributo
@@ -64,7 +70,7 @@ PkElement.prototype = {
     };
 
     if(this._element)
-      this._element.destroy();
+      this._element.destroy(true);
     //
   },
 

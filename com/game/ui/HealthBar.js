@@ -3,10 +3,7 @@ var HealthBar = function(game, attrs){
   this._health = 5; // vidas inicial
 
   // inicia gerenciador de eventos
-  this._event = new Event('player-event', this);
-
-  // grupo de elementos
-  this._hearthGroup = game.add.group();
+  this._event = new Event('heath-event', this);
 
   this.init(game, attrs)
 }
@@ -17,29 +14,33 @@ HealthBar.prototype = Object.create(PkElement.prototype);
 HealthBar.prototype.create = function()
 {
 
+  // chama a super classe e desenha o boneco
+  PkElement.prototype.create.call(this);
+
+  
   var even = true;
   for (var i = 0; i < this._health; i++)
   {
-    var hearth = this._game.add.sprite(0, 0, 'player-ui-hearth');
+    var hearth = this._game.add.sprite(0, 0, 'hearth-sprite-beat');
     hearth.x = (i * hearth.width) + (5 * i);
     hearth.anchor.set(0.5);
     hearth.x += hearth.width / 2;  
     hearth.y += hearth.height / 2;
-    this._hearthGroup.add(hearth);
+    this._element.add(hearth);
     hearth.even = even;
     even = !even;
   };
 
   // coloca no canto direito superior
-  this._hearthGroup.x = this._game.width - this._hearthGroup.width - 5;
-  this._hearthGroup.y += 5;
-
+  this._element.x = this._game.width - this._element.width - 5;
+  this._element.y += 5;
+  
   console.log('create');
 }
 
 HealthBar.prototype.destroy = function()
 {
-  this._hearthGroup.destroy(true);
+  this._element.destroy(true);
 
   // limpa o resto
   this.clear();
@@ -47,7 +48,7 @@ HealthBar.prototype.destroy = function()
 
 HealthBar.prototype.pulse = function(even, time)
 {
-  this._hearthGroup.forEachAlive(function(hearth){
+  this._element.forEachAlive(function(hearth){
 
       if(hearth.even)
       {

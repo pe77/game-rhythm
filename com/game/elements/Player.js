@@ -1,23 +1,23 @@
 var Player = function(game, attrs){
 
-	// inicia gerenciador de eventos
-	this._event = new PkEvent('player-event', this);
+  // inicia gerenciador de eventos
+  this._event = new PkEvent('player-event', this);
 
-	// barrinha de vida
-	this._heathBar = new HealthBar(game, {_health:5});
+  // barrinha de vida
+  this._heathBar = new HealthBar(game, {_health:5});
 
   // vidas inicial
   this._health = this._heathBar._health;// vidas inicial
 
 
 
-	this.init(game, attrs)
+  this.init(game, attrs)
 }
 
 Player.prototype = Object.create(PkElement.prototype);
 
 // sobrescreve o metodo que cria o elemento
-Player.prototype.create = function(sprite)
+Player.prototype.create = function()
 {
 
   // desenha a area de ação
@@ -29,28 +29,37 @@ Player.prototype.create = function(sprite)
 
   this._actionArea = circle;
 
-
   // chama a super classe e desenha o boneco
-  PkElement.prototype.create.call(this, sprite);
+  PkElement.prototype.create.call(this);
+
+  // configura/cria a animação
+  this._idleSprite = this._game.add.group().create(0, 0, 'player-sprite-idle');
+  this._idleSprite.type = 'idle';
+  this._idleAni = this._idleSprite.animations.add('idle');
+  this._idleAni.loop = true;
+
+
+  // add no elemento
+  this._element.add(this._idleSprite);
 
   // cria a barra de vida
   this._heathBar.create();
 
-  this._element.anchor.set(0.5);
+  // centraliza pivot
+  this._element.setAll('anchor.x', 0.5)
+  this._element.setAll('anchor.y', 0.5)
 }
 
 Player.prototype.pulse = function(even, time)
 {
+  // troca o frame da animação com o ritmo
+  this._idleAni.next();
 
   if(even)
   {
-    this._element.scale.x = 0.9;
-    this._element.scale.y = 1.1;
   }
   else
   {
-    this._element.scale.x = 1.1;
-    this._element.scale.y = 0.9;
   }
 
   this._heathBar.pulse(even, time);

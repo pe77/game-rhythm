@@ -157,10 +157,9 @@ Main.prototype.onEndTransition = function(e)
   this._music.loadSong('stage'+musicGame.selectedMusic+'-music');
 
   // cria(sprite) jogador coloca o jogador no centro
-  this._player.create('player-test');
+  this._player.create();
   this._player._element.x = game.world.centerX;
   this._player._element.y = game.world.centerY;
-  this._player._element.anchor.set(0.5);
 
   
 }

@@ -15,11 +15,15 @@ Enemy.prototype.create = function(sprite)
   // chama a super classe
   PkElement.prototype.create.call(this, sprite);
 
+
+
   // add o click
-  this._element.inputEnabled = true;
+  this._element.setAll('inputEnabled', true)
+
+  console.log('onInputUp debug', sprite)
 
   // add o evento de click
-  this._element.events.onInputUp.add(function(){
+  this._element.callAll('events.onInputUp.add', 'events.onInputUp', function(){
     this._event.dispatch('onEnemyClick', {enemy:this});
   }, this);
 
@@ -49,7 +53,8 @@ Enemy.prototype.setPosition = function(position, angle)
   //
 
   this._element.position = pos;
-  this._element.anchor.set(0.5);
+  this._element.setAll('anchor.x', 0.5)
+  this._element.setAll('anchor.y', 0.5)
 
   return this._element.position;
 

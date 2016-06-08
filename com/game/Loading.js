@@ -61,6 +61,10 @@ Loading.prototype.loadImages = function()
 {
     game.load.image('player-test', 'assets/images/states/test/player.png');
     game.load.image('enemy-test', 'assets/images/states/test/enemy.png');
+
+    // sprites
+    game.load.spritesheet('player-sprite-idle', 'assets/images/player/player-sprite-idle.png', 25, 28, 2);
+    game.load.spritesheet('hearth-sprite-beat', 'assets/images/player/hearth-sprite-beat.png', 23, 24, 2);
     
     // ui
     game.load.image('player-ui-hearth', 'assets/images/player/hearth.png');
