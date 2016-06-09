@@ -9,7 +9,7 @@ var Player = function(game, attrs){
   // vidas inicial
   this._health = this._heathBar._health;// vidas inicial
 
-
+  this._hitRange = 140;
 
   this.init(game, attrs)
 }
@@ -21,7 +21,7 @@ Player.prototype.create = function()
 {
 
   // desenha a area de ação
-  circle = new Phaser.Circle(this._game.world.centerX, this._game.world.centerY, 140);
+  circle = new Phaser.Circle(this._game.world.centerX, this._game.world.centerY, this._hitRange);
 
   this._circleGraphic = this._game.add.graphics(0, 0);
   this._circleGraphic.lineStyle(1, 0x00ff00, 1);
@@ -34,7 +34,7 @@ Player.prototype.create = function()
 
   // configura/cria a animação
   this._idleSprite = this._game.add.group().create(0, 0, 'player-sprite-idle');
-  this._idleSprite.type = 'idle';
+  this._idleSprite.animType = 'idle';
   this._idleAni = this._idleSprite.animations.add('idle');
   this._idleAni.loop = true;
 
@@ -55,17 +55,13 @@ Player.prototype.pulse = function(even, time)
   // troca o frame da animação com o ritmo
   this._idleAni.next();
 
-  if(even)
-  {
-  }
-  else
-  {
-  }
-
   this._heathBar.pulse(even, time);
 
+  return;
+
+  /*
   // desenha outro circulo a area de ação
-  circle = new Phaser.Circle(0, 0, 140);
+  circle = new Phaser.Circle(0, 0, this._hitRange);
 
   var graphics = this._game.add.graphics(0, 0);
   graphics.lineStyle(1, 0x00ff00, 1);
@@ -82,6 +78,7 @@ Player.prototype.pulse = function(even, time)
     height:graphics.height + 100,
     alpha:0
   }, 100, null, true);
+  */ 
 }
 
 

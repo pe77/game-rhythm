@@ -3,6 +3,9 @@ var Enemy = function(game, attrs)
   // inicia gerenciador de eventos
   this._event = new PkEvent('enemy-event', this);
 
+  this._popDistance   = 500;
+  this._markClickArea = 200;
+
   // inicia objeto
   this.init(game, attrs);
 }
@@ -15,12 +18,8 @@ Enemy.prototype.create = function(sprite)
   // chama a super classe
   PkElement.prototype.create.call(this, sprite);
 
-
-
   // add o click
   this._element.setAll('inputEnabled', true)
-
-  console.log('onInputUp debug', sprite)
 
   // add o evento de click
   this._element.callAll('events.onInputUp.add', 'events.onInputUp', function(){
@@ -30,29 +29,22 @@ Enemy.prototype.create = function(sprite)
   this._game.world.sendToBack(this._element);
 }
 
-Enemy.prototype.setPosition = function(position, angle)
+Enemy.prototype.setPosition = function(angle)
 {
   // angulo de onde virá (-1 = random)
-  angle = angle || -1;
+  this._angle = angle || -1;
 
-  // se houver posição, coloca
-  if(position != undefined) // new PIXI.Point(0, 0);
-  {
-    this._element.position = position;
-    return;
-  }
-
-  // calcula um raio para calcular a distancia onde vai aparecer
-  circle = new Phaser.Circle(this._game.world.centerX, this._game.world.centerY, 500);
-  var rand  = game.rnd.integerInRange(0, 360);
-  var pos   = circle.circumferencePoint(rand, true);
-
-  // se houver angulo predefinido, usa
-  if(angle > -1)
-    pos = circle.circumferencePoint(angle, true);
+  // -1 = random
+  if(this._angle == -1)
+    this._angle = this._game.rnd.integerInRange(0, 360);
   //
 
+  // calcula um raio para calcular a distancia onde vai aparecer
+  circle = new Phaser.Circle(this._game.world.centerX, this._game.world.centerY, this._popDistance);
+  var pos   = circle.circumferencePoint(this._angle, true);
+
   this._element.position = pos;
+
   this._element.setAll('anchor.x', 0.5)
   this._element.setAll('anchor.y', 0.5)
 
@@ -60,29 +52,52 @@ Enemy.prototype.setPosition = function(position, angle)
 
 }
 
-// faz o inimigo correr até determinado ponto e um tempo X
-Enemy.prototype.runTo = function(position, time, markTime)
+// faz o inimigo correr em um tempo X
+Enemy.prototype.run = function(hitTime)
 {
   this._enemyRunTween  = this.addTween(this._element);
-  time = time || game.rnd.integerInRange(500, 1500);
 
-  markTime = markTime || time;
+  var markTime = hitTime;
+  var playerPosition = this._player._element.position;
 
+  // calcula posição do click
+  this._clickPosition = this._player._actionArea.circumferencePoint(this._angle, true);
 
+  var distanceDiff     = this._popDistance - this._player._hitRange; // distancia entre o ponto de nascimento até a marca
+  var velocidade       = distanceDiff / hitTime; // velocidade com base no tempo
+  var ptime            = (velocidade * this._popDistance) * this._speed; // tempo de diferença
+  markTime = markTime + ptime;  // tempo de passagem do inimigo pela marca
+
+  // HITMARK
   // desenha a marcação do hit
-  circle = new Phaser.Circle(this._game.world.centerX, this._game.world.centerY, 140);
+  circle = new Phaser.Circle(this._game.world.centerX, this._game.world.centerY, this._markClickArea);
   this._timeHitMark = this._game.add.graphics(this._game.world.centerX, this._game.world.centerY);
   this._timeHitMark.lineStyle(2, 0x00ffdd, 1);
   this._timeHitMark.drawCircle(0, 0, circle.diameter);
 
-  this._timeHitMark.position = this._element.position;
+  this._timeHitMark.position = this._clickPosition;//this._element.position;
+
+  // alpha de entrada
+  this._markAlphaTwenn      = this.addTween(this._timeHitMark);
+  this._timeHitMark.alpha = 0;
+  
+  this._markAlphaTwenn.to({
+    alpha:0.3
+  }, hitTime, null, true);
+
   
   this._markCloseTwenn      = this.addTween(this._timeHitMark);
   this._markCloseTwenn.to({
-    width:this._element.width -5,
-    height:this._element.height -5
-  }, markTime, null, true);
+    width:this._element.width,
+    height:this._element.height
+  }, hitTime, null, true);
 
+  this._markCloseTwenn.onComplete.add(function(mark){
+    mark.kill();
+  }, this);
+
+
+  // INIMIGO
   // alpha de entrada
   this._enemyAlphaTween      = this.addTween(this._element);
   this._element.alpha = 0;
@@ -91,9 +106,9 @@ Enemy.prototype.runTo = function(position, time, markTime)
   }, 400, null, true);
 
   this._enemyRunTween.to({
-    x:position.x,
-    y:position.y
-  }, time, null, true);
+    x:playerPosition.x,
+    y:playerPosition.y
+  }, markTime, null, true);
 
   this._enemyRunTween.onComplete.add(function(enemy){
 
@@ -109,12 +124,29 @@ Enemy.prototype.runTo = function(position, time, markTime)
 }
 
 
-Enemy.prototype.hit = function(perfectHit)
+Enemy.prototype.hit = function()
 {
-  var hitText = "Good";
-  if(perfectHit === true)
+  var distanceToClick  = this._game.physics.arcade.distanceBetween(this._element.position, this._clickPosition);
+
+  var hitText = "lixo";
+
+  if(distanceToClick < 11)
+    hitText = "meh"
+  //
+
+  if(distanceToClick < 7)
+    hitText = "OK"
+  //
+
+  if(distanceToClick < 5)
+    hitText = "good"
+  //
+
+  if(distanceToClick < 3)
     hitText = "Perfect!"
   //
+
+
 
   // anima text feedback
   var style = { font: "12px Arial", fill: "#FFFFFF", align: "center" };

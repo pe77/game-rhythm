@@ -16,7 +16,7 @@ Main.prototype.init = function(){
 
   // valores padrão
   this._proximityDelay = 600; // ms
-  this._enemySpeed     = 3000; // ms
+  this._markTime       = 3000; // ms
   this._musicBPM       = 60;
 
   this._enemyGroup = [];
@@ -26,19 +26,19 @@ Main.prototype.init = function(){
 }
 
 // cria um inimigo em um posição randomica, mas longe
-Main.prototype.createEnemy = function(runTime, angle)
+Main.prototype.createEnemy = function(hitTime, angle)
 {
   // angulo de onde virá (-1 = random)
   angle = angle || -1;
 
   // inicia inimigo e seta posição default(randomica)
-  var enemy  = new Enemy(game, {_hitFx:this._hitFx});
+  var enemy  = new Enemy(game, {_hitFx:this._hitFx, _player:this._player, _speed:20});
   enemy.create('enemy-test');
-  enemy.setPosition(null, angle);
+  enemy.setPosition(angle);
 
   // se o inimigo conseguiu atingir jogador
   enemy._event.add('onEndRun', function(e){
-    console.log('kill sem hitar')
+    // console.log('kill sem hitar')
   }, this);
 
   // quando o inimigo morre
@@ -56,20 +56,13 @@ Main.prototype.createEnemy = function(runTime, angle)
 
   // registra evento de click no inimigo
   enemy._event.add('onEnemyClick', function(e){
-
-    var distance = game.physics.arcade.distanceBetween(e.enemy._element.position, this._player._element.position)
-
-    var actionAreaSize = this._player._actionArea.diameter / 2;
-
-    if(distance < actionAreaSize)
-      e.enemy.hit(distance < ((actionAreaSize / 3) * 2)); // mata o inimigo no hit
-    //
-    
+    e.enemy.hit(); // mata o inimigo no hit
     
   }, this);
 
-  // faz o inimigo correr até o jogador
-  enemy.runTo(this._player._element.position, runTime + this._proximityDelay, runTime, angle);
+  // faz o inimigo correr até o jogador em X
+  enemy.run(hitTime);
+  // enemy.runTo(this._player._element.position, hitTime + this._proximityDelay, hitTime);
 
   // add no grupo 
   this._enemyGroup.push(enemy);
@@ -182,10 +175,10 @@ Main.prototype.makeHit = function(time, angle)
   angle = angle || -1;
 
   // cria um inimigo a cada 1/2 sec
-  game.time.events.add(time - this._enemySpeed, function(){
+  game.time.events.add(time - this._markTime, function(){
     // game.time.events.loop(Phaser.Timer.SECOND/2, this.createEnemy, this);
     
-    this.createEnemy(this._enemySpeed, angle)
+    this.createEnemy(this._markTime, angle)
   }, this);
 }
 

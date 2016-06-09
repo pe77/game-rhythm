@@ -21,13 +21,31 @@ HealthBar.prototype.create = function()
   var even = true;
   for (var i = 0; i < this._health; i++)
   {
-    var hearth = this._game.add.sprite(0, 0, 'hearth-sprite-beat');
+    // carrega sprite
+    var hearth = this._game.add.group().create(0, 0, 'hearth-sprite-beat');
+
+    // posiciona corações
     hearth.x = (i * hearth.width) + (5 * i);
     hearth.anchor.set(0.5);
     hearth.x += hearth.width / 2;  
     hearth.y += hearth.height / 2;
+
+    // add no elemento principal
     this._element.add(hearth);
+
+    // variaveis do coração rs
     hearth.even = even;
+    hearth.animType = 'beat';
+
+    // cria animação
+    hearth._beatAni = hearth.animations.add('beat');
+    hearth._beatAni.loop = true;
+
+    // se for even, começa a animação antes
+    if(hearth.even)
+      hearth._beatAni.next();
+    //
+
     even = !even;
   };
 
@@ -50,32 +68,7 @@ HealthBar.prototype.pulse = function(even, time)
 {
   this._element.forEachAlive(function(hearth){
 
-      if(hearth.even)
-      {
-        if(even)
-        {
-          hearth.scale.x = 0.9;
-          hearth.scale.y = 1.1;
-        }
-        else
-        {
-          hearth.scale.x = 1.1;
-          hearth.scale.y = 0.9;
-        }
-      }
-      else
-      {
-        if(!even)
-        {
-          hearth.scale.x = 0.9;
-          hearth.scale.y = 1.1;
-        }
-        else
-        {
-          hearth.scale.x = 1.1;
-          hearth.scale.y = 0.9;
-        }
-      }
-
+      hearth._beatAni.next(); // proxima animação
+      
     }, this);
 }
