@@ -6,6 +6,9 @@ var Music = function(game, attrs){
   // todos os momentos (em ms) em que tem batida | varia de acordo com o bpm
   this._bpmPulses = [];
   this._decoded = false;
+  
+  // intervalo até começar
+  this._startDelay = 0;
 
 	this.init(game, attrs)
 }
@@ -20,9 +23,9 @@ Music.prototype.create = function(sprite) { };
 // carrega as informações e detalhes tecnicos da musica
 Music.prototype.loadXmlData = function(xml)
 {
-  this._enemySpeed      = parseInt(xml.getElementsByTagName("music")[0].attributes.speed.value);
   this._bpm             = parseInt(xml.getElementsByTagName("music")[0].attributes.bpm.value);
-  this._proximityDelay  = parseInt(xml.getElementsByTagName("music")[0].attributes.proximityDelay.value);
+  this._startDelay      = parseInt(xml.getElementsByTagName("music")[0].attributes.startDealy.value);
+  this._name            = parseInt(xml.getElementsByTagName("music")[0].attributes.name.value);
 };
 
 // a musica em si
@@ -51,18 +54,21 @@ Music.prototype.play = function()
 {
   if(this._decoded)
   {
-    // inicia a musica
-    this._song.play();
+    // inicia a musica | com pequeno delay, se houver
+    this._game.time.events.add(this._startDelay, function(){
+      this._song.play();
+    }, this)
+    
 
     // inicia um evento que pulsa a cada batida
     var pulseTime = (Phaser.Timer.SECOND * 60) / this._bpm;
     var even = true;
 
     // loop
+
     this._game.time.events.loop(pulseTime, function(){
       this._event.dispatch('onPulse', {even:even = !even, pulseTime:pulseTime});
-    }, this)
-
+    }, this);
     
   }
   //
@@ -83,7 +89,7 @@ Music.prototype.destroy = function()
 Music.prototype.stop = function()
 {
   // para musica
-  this._song.play();
+  this._song.stop();
 }
 
 // calcula todas os pulsos no decorrer do tempo passado

@@ -17,7 +17,6 @@ Main.prototype.init = function(){
   // valores padrão
   this._proximityDelay = 600; // ms
   this._markTime       = 3000; // ms
-  this._musicBPM       = 60;
 
   this._enemyGroup = [];
   
@@ -26,13 +25,17 @@ Main.prototype.init = function(){
 }
 
 // cria um inimigo em um posição randomica, mas longe
-Main.prototype.createEnemy = function(hitTime, angle)
+Main.prototype.createEnemy = function(hitTime, angle, delay)
 {
   // angulo de onde virá (-1 = random)
   angle = angle || -1;
+  
 
   // inicia inimigo e seta posição default(randomica)
-  var enemy  = new Enemy(game, {_hitFx:this._hitFx, _player:this._player, _speed:1.6});
+  var enemy  = new Enemy(game, {_hitFx:this._hitFx, _player:this._player, _speed:1.2});
+  if(delay)
+    enemy._delay = delay;
+  //
   enemy.create('enemy-test');
   enemy.setPosition(angle);
 
@@ -107,8 +110,7 @@ Main.prototype.onEndTransition = function(e)
     game.sound.setDecodedCallback([ this._hitFx ], function(){
       
       game.debug.text('musica pronta!',50,230);
-      // inicia a musica
-      this._music.play();
+      
 
       // carrega hits do xml da musica
 
@@ -119,8 +121,9 @@ Main.prototype.onEndTransition = function(e)
         var type = parseInt(enemiesHit[i].attributes.type.value);
         var time = parseInt(enemiesHit[i].attributes.time.value);
         var angle = parseInt(enemiesHit[i].attributes.angle.value);
+        var delay = enemiesHit[i].attributes.delay ? parseInt(enemiesHit[i].attributes.delay.value) : 0;
 
-        this.makeHit(time, angle);
+        this.makeHit(time, angle, delay);
       };
 
       // loops
@@ -133,13 +136,18 @@ Main.prototype.onEndTransition = function(e)
         var times = parseInt(enemiesHitLoop[k].attributes.times.value);
         var angle = parseInt(enemiesHitLoop[k].attributes.angle.value);
         var pulses = this._music.getPulsesBetween(from, to, times);
+        var delay = enemiesHitLoop[k].attributes.delay ? parseInt(enemiesHitLoop[k].attributes.delay.value) : 0;
 
         for (var i = 0; i < pulses.length; i++)
-          this.makeHit(pulses[i], angle)
+          this.makeHit(pulses[i], angle, delay)
         //
         //
 
       };
+
+
+      // inicia a musica
+      this._music.play();
       
       
     }, this); 
@@ -169,16 +177,17 @@ Main.prototype.pulseMark = function(even, pulseTime)
 
 }
 
-Main.prototype.makeHit = function(time, angle)
+Main.prototype.makeHit = function(time, angle, delay)
 {
-  // angulo de onde virá (-1 = random)
-  angle = angle || -1;
+  
+  angle = angle || -1; // angulo de onde virá (-1 = random)
+  delay = delay || 0; // atraso da note
 
   // cria um inimigo a cada 1/2 sec
   game.time.events.add(time - this._markTime, function(){
     // game.time.events.loop(Phaser.Timer.SECOND/2, this.createEnemy, this);
     
-    this.createEnemy(this._markTime, angle)
+    this.createEnemy(this._markTime, angle, delay)
   }, this);
 }
 

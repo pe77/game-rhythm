@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<music name="Dont bother Me(Caution)" author="Tashannie" bpm="110" speed="1800" proximityDelay="350">
+<music name="Dont bother Me(Caution)" author="Tashannie" bpm="110"  startDealy="0">
     
     <!-- custom notes -->
     <notes> 
@@ -13,6 +13,6 @@
 
         <loop from="90" to="92" times="2" angle="90"/>
 
-        <loop from="93" to="114" times="1" angle="-1"/>
+        <loop from="92" to="114" times="1" angle="-1"/>
     </loops>
 </music>

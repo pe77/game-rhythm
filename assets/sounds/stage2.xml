@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<music name="Nome da musica" author="Desconhecido" bpm="60" speed="1800" proximityDelay="350">
+<music name="Nome da musica" author="Desconhecido" bpm="60" startDealy="0">
     
     <!-- custom notes -->
     <notes> 

@@ -9,7 +9,7 @@ var Player = function(game, attrs){
   // vidas inicial
   this._health = this._heathBar._health;// vidas inicial
 
-  this._hitRange = 140;
+  this._hitRange = 100;
 
   this.init(game, attrs)
 }

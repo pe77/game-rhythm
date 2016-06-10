@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<music name="I Kissed A Girl" author="Katy Perry" bpm="130" speed="1800" proximityDelay="350">
+<music name="I Kissed A Girl" author="Katy Perry" bpm="130" startDealy="0">
     
     <!-- custom notes -->
     <notes> 
@@ -9,6 +9,6 @@
 
     <!-- loops -->
     <loops>
-        <loop from="4" to="180" times="1" angle="-1"/>
+        <loop from="4" to="180" times="1" angle="-1" delay="400"/>
     </loops>
 </music>

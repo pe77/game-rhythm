@@ -6,6 +6,7 @@ var Enemy = function(game, attrs)
   this._popDistance   = 500;
   this._markClickArea = 200;
   this._speed         = 1;
+  this._delay         = 200;
 
   // inicia objeto
   this.init(game, attrs);
@@ -105,7 +106,7 @@ Enemy.prototype.run = function(hitTime)
   this._markCloseTwenn.to({
     width:this._element.width,
     height:this._element.height
-  }, hitTime, null, true);
+  }, hitTime + this._delay, null, true);
 
   this._markCloseTwenn.onComplete.add(function(mark){
     mark.kill();
@@ -118,12 +119,12 @@ Enemy.prototype.run = function(hitTime)
   this._element.alpha = 0;
   this._enemyAlphaTween.to({
     alpha:1
-  }, 400, null, true, hitTime - toMarkTime);
+  }, 400, null, true, (hitTime - toMarkTime) + this._delay);
 
   this._enemyRunTween.to({
     x:playerPosition.x,
     y:playerPosition.y
-  }, markTime, null, true, hitTime - toMarkTime);
+  }, markTime, null, true, (hitTime - toMarkTime) + this._delay);
 
   this._enemyRunTween.onComplete.add(function(enemy){
 
