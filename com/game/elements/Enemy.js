@@ -5,6 +5,7 @@ var Enemy = function(game, attrs)
 
   this._popDistance   = 500;
   this._markClickArea = 200;
+  this._speed         = 1;
 
   // inicia objeto
   this.init(game, attrs);
@@ -22,7 +23,7 @@ Enemy.prototype.create = function(sprite)
   this._element.setAll('inputEnabled', true)
 
   // add o evento de click
-  this._element.callAll('events.onInputUp.add', 'events.onInputUp', function(){
+  this._element.callAll('events.onInputDown.add', 'events.onInputDown', function(){
     this._event.dispatch('onEnemyClick', {enemy:this});
   }, this);
 
@@ -63,10 +64,24 @@ Enemy.prototype.run = function(hitTime)
   // calcula posição do click
   this._clickPosition = this._player._actionArea.circumferencePoint(this._angle, true);
 
-  var distanceDiff     = this._popDistance - this._player._hitRange; // distancia entre o ponto de nascimento até a marca
-  var velocidade       = distanceDiff / hitTime; // velocidade com base no tempo
-  var ptime            = (velocidade * this._popDistance) * this._speed; // tempo de diferença
-  markTime = markTime + ptime;  // tempo de passagem do inimigo pela marca
+  var toMarkTime = hitTime / this._speed;
+
+  var distanceDiff     = this._popDistance - this._player._hitRange; // distancia entre o ponto de nascimento até a marca | 500-140 = 360
+  markTime = (toMarkTime * this._popDistance) / distanceDiff;
+
+
+  /*
+  3000 = hittime 
+  500  = this._popDistance
+  140  = player.range
+  360  = diff
+
+  360 = 3000
+  500 = x
+
+  x = (3000 * 500) / 360
+  x = 
+  */
 
   // HITMARK
   // desenha a marcação do hit
@@ -103,12 +118,12 @@ Enemy.prototype.run = function(hitTime)
   this._element.alpha = 0;
   this._enemyAlphaTween.to({
     alpha:1
-  }, 400, null, true);
+  }, 400, null, true, hitTime - toMarkTime);
 
   this._enemyRunTween.to({
     x:playerPosition.x,
     y:playerPosition.y
-  }, markTime, null, true);
+  }, markTime, null, true, hitTime - toMarkTime);
 
   this._enemyRunTween.onComplete.add(function(enemy){
 

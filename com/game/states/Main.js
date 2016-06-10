@@ -32,7 +32,7 @@ Main.prototype.createEnemy = function(hitTime, angle)
   angle = angle || -1;
 
   // inicia inimigo e seta posição default(randomica)
-  var enemy  = new Enemy(game, {_hitFx:this._hitFx, _player:this._player, _speed:20});
+  var enemy  = new Enemy(game, {_hitFx:this._hitFx, _player:this._player, _speed:1.6});
   enemy.create('enemy-test');
   enemy.setPosition(angle);
 
