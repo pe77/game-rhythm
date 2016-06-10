@@ -86,10 +86,18 @@ Enemy.prototype.run = function(hitTime)
 
   // HITMARK
   // desenha a marcação do hit
+  this._timeHitMark = this._game.add.graphics();
+  this._timeHitMark.lineStyle(0);
+  this._timeHitMark.beginFill(0x00ffdd, 0.5);
+  this._timeHitMark.drawCircle(0, 0, this._markClickArea);
+  this._timeHitMark.endFill();
+
+  /*
   circle = new Phaser.Circle(this._game.world.centerX, this._game.world.centerY, this._markClickArea);
   this._timeHitMark = this._game.add.graphics(this._game.world.centerX, this._game.world.centerY);
   this._timeHitMark.lineStyle(2, 0x00ffdd, 1);
   this._timeHitMark.drawCircle(0, 0, circle.diameter);
+  */
 
   this._timeHitMark.position = this._clickPosition;//this._element.position;
 

@@ -9,6 +9,15 @@
 
     <!-- loops -->
     <loops>
-        <loop from="4" to="180" times="1" angle="-1" delay="400"/>
+        <loop from="4" to="9" times="1" angle="10" delay="400"/>
+        <loop from="10" to="15" times="1" angle="20" delay="400"/>
+        <loop from="15" to="20" times="1" angle="90" delay="400"/>
+        <loop from="20" to="25" times="1" angle="360" delay="400"/>
+        <loop from="25" to="30" times="1" angle="10" delay="400"/>
+        <loop from="30" to="35" times="1" angle="20" delay="400"/>
+        <loop from="35" to="40" times="1" angle="90" delay="400"/>
+        <loop from="40" to="45" times="1" angle="100" delay="400"/>
+        <loop from="45" to="180" times="1" angle="-1" delay="400"/>
+        
     </loops>
 </music>
