@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+
+<music name="Musica Teste" author="Leonardo Cardoso" bpm="114" startDealy="0">
+    
+    <!-- custom notes -->
+    <notes> 
+        <enemy type="1" time="3100" angle="90" delay="50"/>
+        <enemy type="1" time="3300" angle="110" delay="50"/>
+        
+        <enemy type="1" time="5124" angle="90" delay="50"/>
+
+        <enemy type="1" time="5302" angle="110" delay="50"/>
+        <enemy type="1" time="5800" angle="90" delay="50"/>
+
+        <enemy type="1" time="6415" angle="90" delay="50"/>
+
+        <enemy type="1" time="6805" angle="90" delay="50"/>
+        <enemy type="1" time="7063" angle="120" delay="50"/>
+        <enemy type="1" time="7360" angle="140" delay="50"/>
+        <enemy type="1" time="8000" angle="160" delay="50"/>
+
+
+        <enemy type="1" time="9100" angle="300" delay="50"/>
+        <enemy type="1" time="9300" angle="90" delay="50"/>
+
+
+        <enemy type="1" time="9793" angle="90" delay="50"/>
+        <enemy type="1" time="10315" angle="110" delay="50"/>
+
+        <enemy type="1" time="10800" angle="70" delay="50"/>
+        <enemy type="1" time="11055" angle="90" delay="50"/>
+        <enemy type="1" time="11300" angle="70" delay="50"/>
+
+        <!--
+        <enemy type="1" time="12000" angle="10" delay="50"/>
+        <enemy type="1" time="12200" angle="10" delay="50"/>
+        <enemy type="1" time="12700" angle="10" delay="50"/>
+        -->
+    </notes>
+
+    <!-- loops -->
+    <loops>
+
+    </loops>
+</music>

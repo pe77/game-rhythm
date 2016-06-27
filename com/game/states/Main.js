@@ -41,7 +41,8 @@ Main.prototype.createEnemy = function(hitTime, angle, delay)
 
   // se o inimigo conseguiu atingir jogador
   enemy._event.add('onEndRun', function(e){
-    // console.log('kill sem hitar')
+    // acerta player
+    this._player.hit(e.enemy);
   }, this);
 
   // quando o inimigo morre
@@ -60,7 +61,6 @@ Main.prototype.createEnemy = function(hitTime, angle, delay)
   // registra evento de click no inimigo
   enemy._event.add('onEnemyClick', function(e){
     e.enemy.hit(); // mata o inimigo no hit
-    
   }, this);
 
   // faz o inimigo correr até o jogador em X
@@ -88,7 +88,6 @@ Main.prototype.onEndTransition = function(e)
   bkBtn._element.x = game.width - bkBtn._element.width - 10;
   bkBtn._element.y = game.height - bkBtn._element.height - 10;
 
-
   // carrega configuração da musica
   var xml = game.cache.getXML('stage'+musicGame.selectedMusic+'-xml');
 
@@ -110,7 +109,7 @@ Main.prototype.onEndTransition = function(e)
     game.sound.setDecodedCallback([ this._hitFx ], function(){
       
       game.debug.text('musica pronta!',50,230);
-      
+
 
       // carrega hits do xml da musica
 
@@ -161,8 +160,12 @@ Main.prototype.onEndTransition = function(e)
   this._player.create();
   this._player._element.x = game.world.centerX;
   this._player._element.y = game.world.centerY;
-
   
+
+  // se o jogador morrer, sai do cenario
+  this._player._event.add('onDie', function(e){
+    this._transition.change('GameMenu');
+  }, this);
 }
 
 

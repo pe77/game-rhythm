@@ -8,7 +8,8 @@ GameMenu.prototype.init = function(){
   this.buttons = [
     new PkButton(1, 'btn-m1'),
     new PkButton(2, 'btn-m2'),
-    new PkButton(3, 'btn-m3')
+    new PkButton(3, 'btn-m3'),
+    new PkButton(4, 'btn-m4')
   ];
 
   this.buttonsGroup = game.add.group();

@@ -29,6 +29,7 @@ Loading.prototype.loadScripts = function()
   game.load.xml('stage1-xml', 'assets/sounds/stage1.xml');
   game.load.xml('stage2-xml', 'assets/sounds/stage2.xml');
   game.load.xml('stage3-xml', 'assets/sounds/stage3.xml');
+  game.load.xml('stage4-xml', 'assets/sounds/stage4.xml');
 };
 
 
@@ -39,6 +40,7 @@ Loading.prototype.loadSounds = function()
 	game.load.audio('stage1-music', 'assets/sounds/stage1.mp3');
   game.load.audio('stage2-music', 'assets/sounds/stage2.mp3');
   game.load.audio('stage3-music', 'assets/sounds/stage3.mp3');
+  game.load.audio('stage4-music', 'assets/sounds/stage4.mp3');
 
   game.load.audio('hit-fx', 'assets/sounds/hit.mp3');
 };
@@ -71,6 +73,7 @@ Loading.prototype.loadImages = function()
     game.load.image('btn-m1', 'assets/images/buttons/m1.png');
     game.load.image('btn-m2', 'assets/images/buttons/m2.png');
     game.load.image('btn-m3', 'assets/images/buttons/m3.png');
+    game.load.image('btn-m4', 'assets/images/buttons/m4.png');
     game.load.image('btn-back', 'assets/images/buttons/back.png');
 };
 

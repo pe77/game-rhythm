@@ -89,7 +89,7 @@ Enemy.prototype.run = function(hitTime)
   this._timeHitMark = this._game.add.graphics();
   this._timeHitMark.lineStyle(0);
   this._timeHitMark.beginFill(0x00ffdd, 0.5);
-  this._timeHitMark.drawCircle(0, 0, this._markClickArea);
+  this._timeHitMark.drawCircle(0, 0, 2);//this._markClickArea);
   this._timeHitMark.endFill();
 
   /*

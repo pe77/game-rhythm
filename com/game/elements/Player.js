@@ -4,7 +4,7 @@ var Player = function(game, attrs){
   this._event = new PkEvent('player-event', this);
 
   // barrinha de vida
-  this._heathBar = new HealthBar(game, {_health:5});
+  this._heathBar = new HealthBar(game);
 
   // vidas inicial
   this._health = this._heathBar._health;// vidas inicial
@@ -44,10 +44,22 @@ Player.prototype.create = function()
 
   // cria a barra de vida
   this._heathBar.create();
+  this._heathBar.set(5); // add 5 por padrão
 
   // centraliza pivot
   this._element.setAll('anchor.x', 0.5)
   this._element.setAll('anchor.y', 0.5)
+}
+
+// quando o player é atingido
+Player.prototype.hit = function(enemy)
+{
+  // remove o coração
+  this._heathBar.sub(1);
+
+  // se morreu, dispara o evento de morte
+  if(this._heathBar._value == 0)
+    this._event.dispatch('onDie');
 }
 
 Player.prototype.pulse = function(even, time)
