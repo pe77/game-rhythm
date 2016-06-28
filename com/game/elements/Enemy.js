@@ -153,22 +153,31 @@ Enemy.prototype.hit = function()
   var distanceToClick  = this._game.physics.arcade.distanceBetween(this._element.position, this._clickPosition);
 
   var hitText = "lixo";
+  var precision = 0;
 
   if(distanceToClick < 11)
-    hitText = "meh"
-  //
+  {
+    hitText = "meh";
+    precision = 1;
+  }
 
   if(distanceToClick < 7)
+  {
     hitText = "OK"
-  //
+    precision = 2;
+  }
 
   if(distanceToClick < 5)
+  {
     hitText = "good"
-  //
+    precision = 3;
+  }
 
   if(distanceToClick < 3)
+  {
     hitText = "Perfect!"
-  //
+    precision = 4;
+  }
 
 
 
@@ -176,7 +185,7 @@ Enemy.prototype.hit = function()
   var style = { font: "12px Arial", fill: "#FFFFFF", align: "center" };
   this._text = this._game.add.text(this._element.x, this._element.y, hitText, style);
   this._text.anchor.set(0.5);
-  this._text.cacheAsBitmap = true;
+  // this._text.cacheAsBitmap = true;
 
   var fadeOut = this._game.add.tween(this._text);
 
@@ -193,6 +202,9 @@ Enemy.prototype.hit = function()
   this._hitFx.play()
 
   this.destroy();
+
+  // retorna a precição 
+  return precision;
 }
 
 // remove inimigo

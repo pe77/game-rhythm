@@ -20,6 +20,7 @@ Loading.prototype.loadScripts = function()
 
   // elementos do jogo
   game.load.script('HealthBar', 'com/game/ui/HealthBar.js');
+  game.load.script('Score', 'com/game/ui/Score.js');
   game.load.script('Player', 'com/game/elements/Player.js');
   game.load.script('Enemy', 'com/game/elements/Enemy.js');
   game.load.script('Music', 'com/game/elements/Music.js');
@@ -48,14 +49,15 @@ Loading.prototype.loadSounds = function()
 
 Loading.prototype.loadFonts = function()
 {
-	/*
+  console.log('loadFonts')
+	
 	WebFontConfig = {
-      custom: {
-        families: ['TheMinion'],
-        urls: ['assets/style/theminion.css']
-      }
+    custom: {
+      families: ['David-Sans'],
+      urls: ['assets/fonts/fonts.css']
     }
-    */
+  }
+    
 }
 
 // carrega imagens

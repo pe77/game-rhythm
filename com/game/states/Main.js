@@ -14,6 +14,10 @@ Main.prototype.init = function(){
   this._hitFx       = game.add.audio('hit-fx');
 
 
+  // barrinha de vida
+  this._score = new Score(game);
+
+
   // valores padrão
   this._proximityDelay = 600; // ms
   this._markTime       = 3000; // ms
@@ -60,12 +64,16 @@ Main.prototype.createEnemy = function(hitTime, angle, delay)
 
   // registra evento de click no inimigo
   enemy._event.add('onEnemyClick', function(e){
-    e.enemy.hit(); // mata o inimigo no hit
+    var precision = e.enemy.hit(); // mata o inimigo no hit e retorna a precisão do click
+
+    // add os pontos de acordo com a precião do click
+    if(precision > 0)
+      this._score.add(this._score._basePoins * precision);
+    //
   }, this);
 
   // faz o inimigo correr até o jogador em X
   enemy.run(hitTime);
-  // enemy.runTo(this._player._element.position, hitTime + this._proximityDelay, hitTime);
 
   // add no grupo 
   this._enemyGroup.push(enemy);
@@ -160,6 +168,9 @@ Main.prototype.onEndTransition = function(e)
   this._player.create();
   this._player._element.x = game.world.centerX;
   this._player._element.y = game.world.centerY;
+
+  // score
+  this._score.create();
   
 
   // se o jogador morrer, sai do cenario
